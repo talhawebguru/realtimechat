@@ -22,15 +22,9 @@ const ChatBox = () => {
   useEffect(() => {
     const handleTyping = async () => {
       if (user) {
-        if (isTyping) {
-          await updateDoc(doc(db, 'typingStatus', user.uid), {
-            isTyping: true,
-          });
-        } else {
-          await updateDoc(doc(db, 'typingStatus', user.uid), {
-            isTyping: false,
-          });
-        }
+        await updateDoc(doc(db, 'typingStatus', user.uid), {
+          isTyping: isTyping,
+        });
       }
     };
 
@@ -44,8 +38,10 @@ const ChatBox = () => {
     try {
       await addDoc(collection(db, 'messages'), {
         text: message,
-        createdAt: serverTimestamp(),
-        uid: user.uid,
+        senderID: user.uid,
+        timestamp: serverTimestamp(),
+        isTyping: false,
+        readBy: [],
       });
       setMessage('');
       setIsTyping(false);
