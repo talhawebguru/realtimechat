@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { addDoc, collection, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, doc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import MessagesList from './MessagesList';
 import TypingIndicator from './TypingIndicator';
@@ -24,9 +24,9 @@ const ChatBox = () => {
   useEffect(() => {
     const handleTyping = async () => {
       if (user) {
-        await updateDoc(doc(db, 'typingStatus', user.uid), {
+        await setDoc(doc(db, 'typingStatus', user.uid), {
           isTyping: isTyping,
-        });
+        }, { merge: true });
       }
     };
 
