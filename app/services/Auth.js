@@ -1,7 +1,8 @@
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth, db } from '../firebase';
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
-// 🔹 Sign Up Function
+// Sign Up Function
 export const signUp = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -13,24 +14,36 @@ export const signUp = async (email, password) => {
   }
 };
 
-// 🔹 Login Function
+// Login Function
 export const login = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("User Logged In:", userCredential.user);
-    return userCredential.user;
+    const user = userCredential.user;
+    await setDoc(doc(db, 'users', user.uid), {
+      name: user.email,
+      isOnline: true,
+    });
+    return user;
   } catch (error) {
     console.error("Login Error:", error.message);
     throw error;
   }
 };
 
-// 🔹 Logout Function
+// Logout Function
 export const logout = async () => {
   try {
-    await signOut(auth);
-    console.log("User Logged Out");
+    const user = auth.currentUser;
+    if (user) {
+      await updateDoc(doc(db, 'users', user.uid), {
+        isOnline: false,
+      });
+      await signOut(auth);
+    } else {
+      console.error("No user is currently logged in.");
+    }
   } catch (error) {
     console.error("Logout Error:", error.message);
+    throw error;
   }
 };
