@@ -3,11 +3,17 @@ import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } f
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
 // Sign Up Function
-export const signUp = async (email, password) => {
+export const signUp = async (name, email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log("User Signed Up:", userCredential.user);
-    return userCredential.user;
+    const user = userCredential.user;
+    await setDoc(doc(db, 'users', user.uid), {
+      name: name,
+      email: email,
+      isOnline: true,
+    });
+    console.log("User Signed Up:", user);
+    return user;
   } catch (error) {
     console.error("Sign Up Error:", error.message);
     throw error;
@@ -19,8 +25,7 @@ export const login = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    await setDoc(doc(db, 'users', user.uid), {
-      name: user.email,
+    await updateDoc(doc(db, 'users', user.uid), {
       isOnline: true,
     });
     return user;

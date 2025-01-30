@@ -40,7 +40,6 @@ const ChatBox = () => {
         text: message,
         senderID: user.uid,
         timestamp: serverTimestamp(),
-        isTyping: false,
         readBy: [],
       });
       setMessage('');
@@ -63,7 +62,7 @@ const ChatBox = () => {
           <ActiveUsers />
         </div>
         <div className="col-span-9 bg-gray-300 dark:bg-gray-800 w-full flex flex-col justify-end ">
-          <MessagesList />
+          <MessagesList user={user} />
           <TypingIndicator />
           <form onSubmit={handleSendMessage} className="flex">
             <input
