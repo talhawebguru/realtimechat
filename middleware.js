@@ -4,14 +4,14 @@ export function middleware(req) {
   const token = req.cookies.get('token');
   const { pathname } = req.nextUrl;
 
-  // If user is not authenticated, redirect them to /login (but not if they are already there)
-  if (!token && pathname !== '/login') {
-    return NextResponse.redirect(new URL('/login', req.url));
+  // Allow access to login and signup pages without authentication
+  if (pathname.startsWith('/login') || pathname.startsWith('/signup')) {
+    return NextResponse.next();
   }
 
-  // If user is authenticated and tries to access /login, redirect them to /
-  if (token && pathname === '/login') {
-    return NextResponse.redirect(new URL('/', req.url));
+  // If user is not authenticated, redirect them to /login
+  if (!token) {
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   return NextResponse.next();
