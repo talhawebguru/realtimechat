@@ -23,9 +23,9 @@ const Header = () => {
   return (
     <div className="h-[86px] bg-[#5d5fef] shadow-[0px_4px_4px_0px_rgba(241,120,182,0.25)]">
       <div className="container mx-auto px-4 flex justify-between items-center h-full">
-        <h1>Real Time Chat Application</h1>
+        <h1 className="text-white text-xl font-bold">Real Time Chat Application</h1>
         <div className="flex items-center gap-8">
-          <IoMdNotifications size={26} className="" />
+          <IoMdNotifications size={26} className="text-white" />
           <button
             onClick={toggleTheme}
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"

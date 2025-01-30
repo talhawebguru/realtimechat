@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { collection, query, orderBy, onSnapshot, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { db, auth } from '../../firebase';
+import { db } from '../../firebase';
 import MessageBubble from './MessageBubble';
 
 const MessagesList = ({ user }) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState({});
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,6 +33,7 @@ const MessagesList = ({ user }) => {
         messages.push({ ...messageData, id: doc.id });
       });
       setMessages(messages);
+      scrollToBottom();
     });
 
     return () => {
@@ -39,8 +41,12 @@ const MessagesList = ({ user }) => {
     };
   }, [user]);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div className="overflow-y-scroll h-[85vh] p-4 dark:bg-gray-800">
+    <div className=" h-full">
       {messages.map((message) => (
         <div key={message.id} className="mb-4">
           <MessageBubble
@@ -52,6 +58,7 @@ const MessagesList = ({ user }) => {
           />
         </div>
       ))}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
