@@ -62,7 +62,7 @@ const ChatBox = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden ">
+    <div className="h-screen flex flex-col overflow-hidden">
       <div className="flex-none">
         <Header />
       </div>
@@ -72,7 +72,7 @@ const ChatBox = () => {
           <ActiveUsers />
         </div>
         <div className="flex-1 flex flex-col bg-gray-300 dark:bg-gray-800">
-          <div className="flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-500 dark:scrollbar-track-gray-800  p-4">
+          <div className="flex-1 overflow-y-scroll p-4">
             <MessagesList user={user} />
             <div ref={messagesEndRef} />
           </div>
