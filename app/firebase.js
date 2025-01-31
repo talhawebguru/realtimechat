@@ -8,14 +8,14 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCIOS5hSmb8MkYTcetUY5VHJZ2xHzshoTk",
-  authDomain: "realtimechatsa.firebaseapp.com",
-  projectId: "realtimechatsa",
-  storageBucket: "realtimechatsa.firebasestorage.app",
-  messagingSenderId: "880533310509",
-  appId: "1:880533310509:web:1d71b7fc4eb3a8a8e1fca4",
-  measurementId: "G-KTT1ZZHES5"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
+
 
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
